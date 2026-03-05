@@ -30,7 +30,7 @@ public class ProductController {
     public String home(Model model) {
         return "redirect:/user/index";
     }
-    @GetMapping("/admin/delete")
+    @PostMapping("/admin/delete")
     public String delete(@RequestParam(name="id") Long id){
         productRepository.deleteById(id);
         return "redirect:/user/index";
