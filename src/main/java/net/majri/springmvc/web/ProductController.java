@@ -39,6 +39,24 @@ public class ProductController {
     }
 
 
+    @GetMapping("/admin/editProduct")
+    public String editProduct(Model model, @RequestParam(name = "id") Long id) {
+        Product p = productRepository.findById(id).orElse(null);
+        if (p == null) return "redirect:/user/index";
+        model.addAttribute("product", p);
+        return "editProduct";
+    }
+    @PostMapping("/admin/update")
+    public String update(Model model, @Valid Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) return "editProduct";
+        productRepository.save(product);
+        return "redirect:/user/index";
+    }
+
+
+
+
+
     @GetMapping("/")
     public String home(Model model) {
         return "redirect:/user/index";
