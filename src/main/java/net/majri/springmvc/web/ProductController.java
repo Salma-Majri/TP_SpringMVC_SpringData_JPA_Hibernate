@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import net.majri.springmvc.entities.Product;
 import net.majri.springmvc.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +26,19 @@ public class ProductController {
 
     @GetMapping("/user/index")
     @PreAuthorize("hasRole('USER')")
-    public String index(Model model) {
-        List<Product> products = productRepository.findAll();
-        model.addAttribute("productList", products);
+    public String index(Model model,
+                        @RequestParam(name = "page", defaultValue = "0") int p,
+                        @RequestParam(name = "size", defaultValue = "5") int s,
+                        @RequestParam(name = "keyword", defaultValue = "") String kw) {
+        Page<Product> pageProducts = productRepository.findByNameContains(kw, PageRequest.of(p, s));
+        model.addAttribute("productList", pageProducts.getContent());
+        model.addAttribute("pages", new int[pageProducts.getTotalPages()]);
+        model.addAttribute("currentPage", p);
+        model.addAttribute("keyword", kw);
         return "products";
     }
+
+
     @GetMapping("/")
     public String home(Model model) {
         return "redirect:/user/index";

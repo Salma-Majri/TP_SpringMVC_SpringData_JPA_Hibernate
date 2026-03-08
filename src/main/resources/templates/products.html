@@ -7,31 +7,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Products</title>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.5/css/bootstrap.min.css">
 </head>
 <body>
-<div class="p-3"  layout:fragment="content1">
-    <div class="p-3" sec:authorize="hasRole('ADMIN')">
-        <a class="btn btn-primary" th:href="@{/admin/newProduct}">New Product</a>
+<div class="p-3" layout:fragment="content1">
+    <div class="card">
+        <div class="card-header">List of products</div>
+        <div class="card-body">
+            <form method="get" th:action="@{/user/index}">
+                <div class="input-group mb-3">
+                    <input type="text" name="keyword" class="form-control" th:value="${keyword}" placeholder="Search product...">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+
+            <div class="p-3" sec:authorize="hasRole('ADMIN')">
+                <a class="btn btn-success" th:href="@{/admin/newProduct}">New Product</a>
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${productList}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.name}"></td>
+                    <td th:text="${p.price}"></td>
+                    <td th:text="${p.quantity}"></td>
+                    <td sec:authorize="hasRole('ADMIN')">
+                        <form method="post" th:action="@{/admin/delete(id=${p.id}, page=${currentPage}, keyword=${keyword})}">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Etes-vous sûr ?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <nav>
+                <ul class="nav nav-pills">
+                    <li th:each="page,status:${pages}">
+                        <a th:href="@{/user/index(page=${status.index}, keyword=${keyword})}"
+                           th:class="${currentPage==status.index?'btn btn-primary ms-1':'btn btn-outline-primary ms-1'}"
+                           th:text="${status.index}">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
-    <table class="table">
-        <thead>
-        <th>ID</th><th>Name</th><th>Price</th><th>Quantity</th>
-        </thead>
-        <tbody>
-        <tr th:each="p : ${productList}">
-            <td th:text="${p.id}"></td>
-            <td th:text="${p.name}"></td>
-            <td th:text="${p.price}"></td>
-            <td th:text="${p.quantity}"></td>
-            <td  sec:authorize="hasRole('ADMIN')">
-                <form method="post" th:action="@{/admin/delete(id=${p.id})}">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 </body>
 </html>

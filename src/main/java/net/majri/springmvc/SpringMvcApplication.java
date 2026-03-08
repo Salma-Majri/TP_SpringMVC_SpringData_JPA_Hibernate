@@ -27,17 +27,17 @@ public class SpringMvcApplication {
                     .quantity(12)
                     .build());
             productRepository.save(Product.builder()
-                    .name("Clavier")
+                    .name("keyboard")
                     .price(1200)
                     .quantity(11)
                     .build());
             productRepository.save(Product.builder()
-                    .name("Tablette")
+                    .name("Tablet")
                     .price(7200)
                     .quantity(12)
                     .build());
             productRepository.save(Product.builder()
-                    .name("Imprimante")
+                    .name("Printer")
                     .price(2800)
                     .quantity(4)
                     .build());
