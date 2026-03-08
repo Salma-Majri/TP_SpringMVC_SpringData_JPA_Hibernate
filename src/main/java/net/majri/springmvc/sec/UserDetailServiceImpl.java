@@ -1,12 +1,16 @@
 package net.majri.springmvc.sec;
 
+import lombok.AllArgsConstructor;
 import net.majri.springmvc.entities.AppUser;
 import net.majri.springmvc.service.AccountService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
+@AllArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
     private AccountService accountService;
 
@@ -22,7 +26,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         return User
                 .withUsername(appUser.getUsername())
                 .password(appUser.getPassword())
-                .roles(roles)
+                .authorities(roles)
                 .build();
     }
 }
