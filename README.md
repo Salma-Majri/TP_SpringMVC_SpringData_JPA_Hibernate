@@ -15,6 +15,21 @@ Créer une application Web JEE complète permettant la gestion d'un catalogue de
 
 ---
 
+
+### Authentification
+Sécurisation de l'accès via une page de connexion personnalisée avec Spring Security.
+![Login Page](./screenshots/login.png)
+
+### Catalogue de Produits
+Affichage dynamique avec recherche par mot-clé et pagination.
+![Product List](./screenshots/products.png)
+
+
+---
+
+
+
+
 ##  Stack Technique
 * **Backend :** Spring Boot 3, Spring Data JPA, Hibernate.
 * **Frontend :** Thymeleaf, Bootstrap 5, Thymeleaf Layout Dialect.
